@@ -59,5 +59,6 @@
   "vim-startuptime": { "branch": "master", "commit": "454b3de856b7bd298700de33d79774ca9b9e3875" },
   "vim-transparent": { "branch": "master", "commit": "9f45d7e9d6ffd78ee441782491aac382d8e5bb1a" },
   "vimwiki": { "branch": "dev", "commit": "f0fe154ede6b11e3db9b058b930005a056a3d1c6" },
-  "which-key.nvim": { "branch": "main", "commit": "7ccf476ebe0445a741b64e36c78a682c1c6118b7" }
+  "which-key.nvim": { "branch": "main", "commit": "7ccf476ebe0445a741b64e36c78a682c1c6118b7" },
+  "zephyr-clear.nvim": { "branch": "main", "commit": "ce54e84b66e569a7dab1237022d8d5547831cee2" }
 }

@@ -3,16 +3,26 @@
 -- In your plugin files, you can: add extra plugins, disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
-  { "tribela/vim-transparent" },
-  { "ellisonleao/gruvbox.nvim" },
-  -- Colorschemes BOD
+
+  -- configure lazyvim to load colorscheme
+  {
+    "lazyvim/lazyvim",
+    opts = {
+      colorscheme = "gruvbox",
+    },
+  },
+
+  -- Colorschemes
   { "lunarvim/colorschemes" },
+  { "ellisonleao/gruvbox.nvim" },
   { "lunarvim/onedarker.nvim" },
   { "gnmearacaun/onedarkcomment.nvim" },
+  -- { "gnmearacaun/spacegray-trans.nvim" },
+  { "gnmearacaun/zephyr-clear.nvim" },
+
+  { "tribela/vim-transparent" },
   { "vim-scripts/autoscroll.vim", event = "BufRead", opt = true },
-  -- { "vim-scripts/autoscroll.vim" },
+
   {
     "vimwiki/vimwiki",
     event = "BufWinEnter",
@@ -30,14 +40,6 @@ return {
         [".mdown"] = "markdown",
       }
     end,
-  },
-
-  -- configure lazyvim to load gruvbox
-  {
-    "lazyvim/lazyvim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
   },
 
   -- change trouble config
@@ -228,6 +230,7 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
+        "rnix-lsp",
       },
     },
   },
