@@ -115,6 +115,18 @@ return {
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
+        rnix = {
+          -- languageserver = "nix",
+          command = "rnix-lsp",
+          filetypes = "nix",
+          -- config = function()
+          --   let g:LanguageClient_serverCommands = {
+          --     'nix': ['rnix-lsp']
+          --   },
+          -- end,
+        },
+        cssls = {},
+        bashls = {},
       },
     },
   },
@@ -136,7 +148,7 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
+        -- will be automatically installed with mason and loaded with lspconfig
         tsserver = {},
       },
       -- you can do any additional lsp server setup here
@@ -191,6 +203,7 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
+        "nix",
       })
     end,
   },
