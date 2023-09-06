@@ -52,6 +52,9 @@ return {
   -- disable trouble
   -- { "folke/trouble.nvim", enabled = false },
 
+  -- disable noice
+  { "folke/noice.nvim", enabled = false },
+
   -- add symbols-outline
   {
     "simrat39/symbols-outline.nvim",
@@ -87,12 +90,36 @@ return {
     opts = {
       defaults = {
         layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
+        layout_config = {
+          horizontal = {
+            prompt_position = "top",
+            preview_width = 0.6,
+            results_width = 0.4,
+          },
+          vertical = {
+            mirror = false,
+          },
+          width = 0.95,
+          height = 0.95,
+          preview_cutoff = 80,
+        },
         sorting_strategy = "ascending",
         winblend = 0,
       },
     },
   },
+
+  --  ; `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+  --        :pickers {:find_files {:find_command ["rg" "--files" "--hidden"
+  --                                              "--iglob" "!**/.git/*"]}
+  --                                              "--iglob" "!**/.git/*"]
+  --                               :mappings {:i {"<M-u>" "results_scrolling_up"
+  --                                              "<M-d>" "results_scrolling_down"}}}
+  --                  :live_grep {:mappings {:i {"<M-u>" "results_scrolling_up"
+  --                                             "<M-d>" "results_scrolling_down"}}}
+  --                  :buffers {:mappings {:i {"<M-d>" "delete_buffer"}
+  --                                       :n {"<M-d>" "delete_buffer"}}}}})
+  --
 
   -- add telescope-fzf-native
   {
@@ -107,64 +134,65 @@ return {
   },
 
   -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-        rnix = {
-          -- languageserver = "nix",
-          command = "rnix-lsp",
-          filetypes = "nix",
-          -- config = function()
-          --   let g:LanguageClient_serverCommands = {
-          --     'nix': ['rnix-lsp']
-          --   },
-          -- end,
-        },
-        cssls = {},
-        bashls = {},
-      },
-    },
-  },
+  -- but was this using memory, nil is preferred for nix lsp anyway
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   ---@class PluginLspOpts
+  --   opts = {
+  --     ---@type lspconfig.options
+  --     servers = {
+  --       -- pyright will be automatically installed with mason and loaded with lspconfig
+  --       pyright = {},
+  --       rnix = {
+  --         -- languageserver = "nix",
+  --         command = "rnix-lsp",
+  --         filetypes = "nix",
+  --         -- config = function()
+  --         --   let g:LanguageClient_serverCommands = {
+  --         --     'nix': ['rnix-lsp']
+  --         --   },
+  --         -- end,
+  --       },
+  --       cssls = {},
+  --       bashls = {},
+  --     },
+  --   },
+  -- },
 
   -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   dependencies = {
+  --     "jose-elias-alvarez/typescript.nvim",
+  --     init = function()
+  --       require("lazyvim.util").on_attach(function(_, buffer)
+  --         -- stylua: ignore
+  --         vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+  --         vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+  --       end)
+  --     end,
+  --   },
+  --   ---@class PluginLspOpts
+  --   opts = {
+  --     ---@type lspconfig.options
+  --     servers = {
+  --       -- will be automatically installed with mason and loaded with lspconfig
+  --       tsserver = {},
+  --     },
+  --     -- you can do any additional lsp server setup here
+  --     -- return true if you don't want this server to be setup with lspconfig
+  --     ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+  --     setup = {
+  --       -- example to setup with typescript.nvim
+  --       tsserver = function(_, opts)
+  --         require("typescript").setup({ server = opts })
+  --         return true
+  --       end,
+  --       -- Specify * to use this function as a fallback for any server
+  --       -- ["*"] = function(server, opts) end,
+  --     },
+  --   },
+  -- },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
@@ -208,6 +236,23 @@ return {
     end,
   },
 
+  -- doesn't work
+  --
+  -- {
+  --   require("noice").setup({
+  --     routes = {
+  --       {
+  --         filter = {
+  --           event = "msg_show",
+  --           kind = "",
+  --           find = "written",
+  --         },
+  --         opts = { skip = true },
+  --       },
+  --     },
+  --   }),
+  -- },
+
   -- the opts function can also be used to change the default opts:
   {
     "nvim-lualine/lualine.nvim",
@@ -243,7 +288,7 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
-        "rnix-lsp",
+        "nil",
       },
     },
   },
